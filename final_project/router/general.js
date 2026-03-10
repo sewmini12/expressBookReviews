@@ -21,9 +21,21 @@ public_users.post("/register", (req,res) => {
 });
 
 // Get the book list available in the shop
-public_users.get('/',function (req, res) {
-  return res.status(200).send(JSON.stringify(books, null, 4));
+// Task 10: Get the book list available in the shop using Async-Await
+public_users.get('/', async function (req, res) {
+  try {
+    // Simulating an asynchronous operation to get books
+    const getBooks = new Promise((resolve, reject) => {
+        resolve(books);
+    });
+    
+    const bookList = await getBooks;
+    res.status(200).send(JSON.stringify(bookList, null, 4));
+  } catch (error) {
+    res.status(500).json({message: "Error retrieving books"});
+  }
 });
+
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
